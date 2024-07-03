@@ -18,11 +18,27 @@ app.post("/courses", (req, res) => {
   res.send(singleCourse);
 });
 
-// app.put('/courses', (req, res) => {
-//     courses[0].name = 'java1';
-// });
+app.put("/courses/:id", (req, res) => {
+    if(!courses[req.params.id - 1]){
+        res.status(404).send("Course not found");
+    } else{
+        let course = {
+            id : req.params.id,
+            name : req.body.name
+        }
+        courses[req.params.id - 1] = course;
+        res.send(course);
+    }
+});
 
-// console.log(courses);
+app.delete("/courses/:id", (req, res) => {
+    if(!courses[req.params.id - 1]){
+        res.status(404).send("Course not found");
+    } else{
+        courses.splice(req.params.id - 1, 1);
+    }
+    res.send(courses);
+});
 
 app.get("/courses", (req, res) => {
   res.json(courses);
